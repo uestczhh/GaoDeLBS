@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource {
                     //显示定位框
                     locationMarker.showInfoWindow();
                     //焦点转移到定位处
-                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));//缩放范围3-19
                     //定位结束，停止定位服务
                     deactivate();
                 } else {
