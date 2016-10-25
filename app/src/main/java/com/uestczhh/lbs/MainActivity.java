@@ -1,5 +1,6 @@
 package com.uestczhh.lbs;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
@@ -7,6 +8,8 @@ import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -86,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource {
                     }
                     //描绘定位点
                     addMarker(latLng, desc);
-                    //显示定位框
-                    locationMarker.showInfoWindow();
                     //焦点转移到定位处
                     aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));//缩放范围3-19
                     //定位结束，停止定位服务
@@ -111,10 +112,29 @@ public class MainActivity extends AppCompatActivity implements LocationSource {
     private void addMarker(LatLng latLng, String desc) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
+
+        //默认定位点
         markerOptions.title("当前位置");
         markerOptions.snippet(desc);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker());
+
+        //自定义定位点
+//        markerOptions.anchor(0.5f, 1);
+//        markerOptions.visible(true);
+//        markerOptions.icon(BitmapDescriptorFactory.fromView(getMapView("自定义", desc)));
+
         locationMarker = aMap.addMarker(markerOptions);
+        //显示定位框
+        locationMarker.showInfoWindow();
+    }
+
+    private View getMapView(String title, String content) {
+        View view = View.inflate(this, R.layout.map_marker, null);
+        TextView tvTitle = (TextView) view.findViewById(R.id.title);
+        TextView tvContent = (TextView) view.findViewById(R.id.content);
+        tvTitle.setText(title);
+        tvContent.setText(content);
+        return view;
     }
 
     @Override
